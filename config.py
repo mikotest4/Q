@@ -1,4 +1,3 @@
-
 import os
 
 class Config:
@@ -7,9 +6,14 @@ class Config:
     APP_ID = 27999679
     API_HASH = "f553398ca957b9c92bcb672b05557038"
 
-    #comma seperated user id of users who are allowed to use
+    # comma separated user id of users who are allowed to use
     ALLOWED_USERS = [x.strip(' ') for x in os.environ.get('ALLOWED_USERS','7970350353').split(',')]
- # Absolute path to the folder where you keep your .ttf/.otf files
+    
+    # Absolute path to the folder where you keep your .ttf/.otf files
     FONTS_DIR = os.path.join(os.getcwd(), "fonts")
     
     DOWNLOAD_DIR = 'downloads'
+    
+    # MongoDB Configuration
+    DB_URI = os.environ.get("DATABASE_URL", "mongodb+srv://Koi:aloksingh@cluster0.86wo9.mongodb.net/?retryWrites=true&w=majority")
+    DB_NAME = os.environ.get("DATABASE_NAME", "Koi")
