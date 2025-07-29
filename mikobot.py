@@ -15,6 +15,20 @@ from pyrogram import Client
 class QueueBot(Client):
     async def start(self):
         await super().start()
+        
+        # Send startup notification to admin
+        try:
+            # Get the first admin from ALLOWED_USERS list
+            admin_id = int(Config.ALLOWED_USERS[0])
+            await self.send_message(
+                chat_id=admin_id,
+                text="<b>𝗠𝗮𝘀𝘁𝗲𝗿 𝗕𝗼𝘁 𝗜𝘀 𝗢𝗻𝗹𝗶𝗻𝗲.</b>",
+                parse_mode="HTML"
+            )
+            logging.info(f"Startup notification sent to admin: {admin_id}")
+        except Exception as e:
+            logging.error(f"Failed to send startup notification: {e}")
+        
         # launch our single background worker
         self.loop.create_task(queue_worker(self))
 
