@@ -1,3 +1,9 @@
-pyrogram
-tgcrypto
-requests
+pyrogram>=2.0.106
+tgcrypto>=1.2.5
+requests>=2.31.0
+motor>=3.3.2
+pymongo>=4.6.1
+dnspython>=2.4.2
+asyncio>=3.4.3
+aiofiles>=23.2.1
+python-dateutil>=2.8.2
