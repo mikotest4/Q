@@ -17,6 +17,8 @@ logging.getLogger('pyrogram').setLevel(logging.WARNING)
 
 async def insert(user_id):
     """Insert or update user in database - placeholder function"""
+    # This function should handle user registration/tracking
+    # You can implement database insertion logic here if needed
     logger.info(f"User {user_id} accessed the bot")
     pass
 
@@ -39,13 +41,16 @@ async def strtCap(bot, message):
                 InlineKeyboardButton("ɪ", url="https://t.me/Yae_X_Miko"),
                 InlineKeyboardButton("ᴋ", url="https://t.me/Yae_X_Miko"),
                 InlineKeyboardButton("ᴏ", url="https://t.me/Yae_X_Miko")
+            ],
+            [
+                InlineKeyboardButton("𝗧𝗮𝗸𝗲 𝗔𝗰𝗰𝗲𝘀𝘀", url="https://t.me/Yae_X_Miko")
             ]
         ]
     )
 
     await message.reply_photo(
         photo=Config.YAE_MIKO_PIC,
-        caption=f"<b>Hᴇʟʟᴏ {message.from_user.mention}\n\nɪ ᴀᴍ sᴜʙᴛɪᴛʟᴇ ᴍɪxᴇʀ ʙᴏᴛ ᴡɪᴛʜ ᴄᴜsᴛᴏᴍ sᴜʙᴛɪᴛʟᴇ.</b>",
+        caption=f"<b>Hᴇʟʟᴏ {message.from_user.mention}\n\nɪ ᴀᴍ sᴜʙᴛɪᴛʟᴇ ᴍɪxᴇʀ ʙᴏᴛ ᴡɪᴛʜ ᴄᴜsᴛᴏᴍ sᴜʙᴛɪᴛʟᴇ.</b>\n<b>ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴜsᴇ ʙᴏᴛ ᴛʜᴀɴ ᴛᴀᴋᴇ ᴀᴄᴄᴇss</b>",
         reply_markup=keyboard
     )
 
