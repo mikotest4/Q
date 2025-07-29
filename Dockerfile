@@ -53,4 +53,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 EXPOSE 8080
 
 # Set default command
-CMD ["python", "muxbot.py"]
+CMD ["python", "mikobot.py"]
