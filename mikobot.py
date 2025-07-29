@@ -12,6 +12,8 @@ if not os.path.isdir(Config.DOWNLOAD_DIR):
     os.mkdir(Config.DOWNLOAD_DIR)
 
 from pyrogram import Client
+from pyrogram.enums import ParseMode
+
 class QueueBot(Client):
     async def start(self):
         await super().start()
@@ -23,7 +25,7 @@ class QueueBot(Client):
             await self.send_message(
                 chat_id=admin_id,
                 text="<b>𝗠𝗮𝘀𝘁𝗲𝗿 𝗕𝗼𝘁 𝗜𝘀 𝗢𝗻𝗹𝗶𝗻𝗲.</b>",
-                parse_mode="HTML"
+                parse_mode=ParseMode.HTML
             )
             logging.info(f"Startup notification sent to admin: {admin_id}")
         except Exception as e:
