@@ -15,8 +15,6 @@ class Database:
     def setup(self):
         """Setup database connection"""
         try:
-            # Test the connection
-            asyncio.create_task(self.test_connection())
             logger.info("Database connection established successfully")
             return self
         except Exception as e:
@@ -28,15 +26,18 @@ class Database:
         try:
             await self.client.admin.command('ping')
             logger.info("Database ping successful")
+            return True
         except Exception as e:
             logger.error(f"Database ping failed: {e}")
+            return False
     
     async def add_user(self, user_id):
         """Add a new user to the database"""
         try:
+            import time
             user_data = {
                 'user_id': int(user_id),
-                'created_at': asyncio.get_event_loop().time()
+                'created_at': time.time()
             }
             
             # Insert user if not exists
