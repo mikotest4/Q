@@ -13,14 +13,25 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from chat import Chat
 from config import Config
+from helper_func.dbhelper import Database as Db
 logging.getLogger('pyrogram').setLevel(logging.WARNING)
 
+# Initialize database
+db = Db()
+
 async def insert(user_id):
-    """Insert or update user in database - placeholder function"""
-    # This function should handle user registration/tracking
-    # You can implement database insertion logic here if needed
-    logger.info(f"User {user_id} accessed the bot")
-    pass
+    """Insert or update user in database"""
+    try:
+        # Check if user already exists
+        existing_user = await db.get_user(user_id)
+        if not existing_user:
+            # Add new user to database
+            await db.add_user(user_id)
+            logger.info(f"New user {user_id} added to database")
+        else:
+            logger.info(f"User {user_id} already exists in database")
+    except Exception as e:
+        logger.error(f"Error inserting user {user_id}: {e}")
 
 @Client.on_message(filters.command("start") & filters.private)
 async def strtCap(bot, message):
@@ -117,6 +128,54 @@ async def back_to_start(bot, callback_query: CallbackQuery):
 async def close_menu(bot, callback_query: CallbackQuery):
     await callback_query.message.delete()
     await callback_query.answer()
+
+@Client.on_message(filters.command("users") & filters.private)
+async def users_command(bot, message):
+    user_id = str(message.from_user.id)
+    
+    # Check if user is admin (in ALLOWED_USERS)
+    if user_id not in Config.ALLOWED_USERS:
+        await message.reply_text(
+            Chat.NO_AUTH_USER,
+            reply_to_message_id=message.id
+        )
+        return
+    
+    try:
+        # Get all users from database
+        all_users = await db.get_all_users()
+        
+        if not all_users:
+            await message.reply_text(
+                "<b>ɴᴏ ᴜsᴇʀs ғᴏᴜɴᴅ ɪɴ ᴅᴀᴛᴀʙᴀsᴇ.</b>",
+                reply_to_message_id=message.id
+            )
+            return
+        
+        # Format user list
+        user_count = len(all_users)
+        user_list = "\n".join([f"<b>{i+1}.</b> <code>{user['user_id']}</code>" for i, user in enumerate(all_users)])
+        
+        users_text = f"""<b>📊 ᴅᴀᴛᴀʙᴀsᴇ sᴛᴀᴛɪsᴛɪᴄs</b>
+
+<b>👥 ᴛᴏᴛᴀʟ ᴜsᴇʀs:</b> <b>{user_count}</b>
+
+<b>📋 ᴜsᴇʀ ʟɪsᴛ:</b>
+{user_list}
+
+💡 <b>ᴄʀᴇᴅɪᴛs:</b> <b>@Yae_X_Miko</b>"""
+        
+        await message.reply_text(
+            users_text,
+            reply_to_message_id=message.id
+        )
+        
+    except Exception as e:
+        logger.error(f"Error in users command: {e}")
+        await message.reply_text(
+            "<b>❌ ᴇʀʀᴏʀ ʀᴇᴛʀɪᴇᴠɪɴɢ ᴜsᴇʀs ғʀᴏᴍ ᴅᴀᴛᴀʙᴀsᴇ.</b>",
+            reply_to_message_id=message.id
+        )
 
 @pyrogram.Client.on_message(pyrogram.filters.command(['help']))
 async def help_user(bot, update):
