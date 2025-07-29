@@ -20,3 +20,6 @@ class Config:
     
     # Yae Miko Picture URL
     YAE_MIKO_PIC = "https://telegra.ph/file/8c3d010a3456bb919767d-8a0c8cf2056766c5ee.jpg"
+    
+    # Help Picture URL
+    HELP_PIC = "https://graph.org/file/f023e3a9cc6f26c6f51c5-0394e94700525d0617.jpg"
