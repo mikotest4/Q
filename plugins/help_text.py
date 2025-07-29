@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 import os
 import pyrogram
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from chat import Chat
 from config import Config
 logging.getLogger('pyrogram').setLevel(logging.WARNING)
@@ -43,7 +43,8 @@ async def strtCap(bot, message):
                 InlineKeyboardButton("ᴏ", url="https://t.me/Yae_X_Miko")
             ],
             [
-                InlineKeyboardButton("𝗧𝗮𝗸𝗲 𝗔𝗰𝗰𝗲𝘀𝘀", url="https://t.me/Yae_X_Miko")
+                InlineKeyboardButton("𝗧𝗮𝗸𝗲 𝗔𝗰𝗰𝗲𝘀𝘀", url="https://t.me/Yae_X_Miko"),
+                InlineKeyboardButton("𝗛𝗲𝗹𝗽", callback_data="help_menu")
             ]
         ]
     )
@@ -53,6 +54,22 @@ async def strtCap(bot, message):
         caption=f"<b>Hᴇʟʟᴏ {message.from_user.mention}\n\nɪ ᴀᴍ sᴜʙᴛɪᴛʟᴇ ᴍɪxᴇʀ ʙᴏᴛ ᴡɪᴛʜ ᴄᴜsᴛᴏᴍ sᴜʙᴛɪᴛʟᴇ.</b>\n<b>ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴜsᴇ ʙᴏᴛ ᴛʜᴀɴ ᴛᴀᴋᴇ ᴀᴄᴄᴇss</b>",
         reply_markup=keyboard
     )
+
+@Client.on_callback_query(filters.regex("help_menu"))
+async def help_callback(bot, callback_query: CallbackQuery):
+    help_text = """<b>𝗪𝗲𝗹𝗰𝗼𝗺𝗲 𝗧𝗼 𝗧𝗵𝗲 𝗛𝗲𝗹𝗽 𝗠𝗲𝗻𝘂.</b>
+
+<b>𝗛𝗼𝘄 𝗧𝗼 𝗨𝘀𝗲 𝗧𝗵𝗶𝘀 𝗕𝗼𝘁.</b>
+<b>1 : sᴇɴᴅ ᴀ ᴠɪᴅᴇᴏ ғɪʟᴇ {ғɪʟᴇ sʜᴏᴜʟᴅ ʙᴇ ɪɴ .ᴍᴋᴠ ᴏʀ .ᴍᴘ4}.</b>
+<b>2 : sᴇɴᴅ ᴀ sᴜʙᴛɪᴛʟᴇ ғɪʟᴇ. {ғɪʟᴇ sʜᴏᴜʟᴅ ʙᴇ ɪɴ .ᴀss ᴏʀ .sʀᴛ}.</b>
+<b>3 : ᴄʜᴏᴏsᴇ ʏᴏᴜʀ ᴅᴇsɪʀᴇᴅ ᴛʏᴘᴇ ᴏғ ᴍᴜxɪɴɢʜ {sᴏғᴛᴍᴜx ᴏʀ ʜᴀʀᴅᴍᴜx}.</b>"""
+
+    await callback_query.message.reply_photo(
+        photo=Config.HELP_PIC,
+        caption=help_text
+    )
+    
+    await callback_query.answer()
 
 @pyrogram.Client.on_message(pyrogram.filters.command(['help']))
 async def help_user(bot, update):
