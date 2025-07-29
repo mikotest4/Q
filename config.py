@@ -17,3 +17,6 @@ class Config:
     # MongoDB Configuration
     DB_URI = os.environ.get("DATABASE_URL", "mongodb+srv://Koi:aloksingh@cluster0.86wo9.mongodb.net/?retryWrites=true&w=majority")
     DB_NAME = os.environ.get("DATABASE_NAME", "Koi")
+    
+    # Yae Miko Picture URL
+    YAE_MIKO_PIC = "https://telegra.ph/file/8c3d010a3456bb919767d-8a0c8cf2056766c5ee.jpg"
